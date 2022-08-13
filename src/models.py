@@ -23,17 +23,38 @@ class People(Base):
     # Notice that each column is also a normal Python instance attribute.
     uid = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    height = column(Integer, nullable=False)
-    hair_color = column(string(250), nullable=False)
-    skin_color = column(string(250), nullable=False)
+    height = Column(Integer, nullable=False)
+    hair_color = Column(String(250), nullable=False)
+    skin_color = Column(String(250), nullable=False)
 
 class Planets(Base):
     __tablename__ = "planets"
 
-    uid
+    uid = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    climate = Column(String(250), nullable=False)
+    terrain = Column(String(250), nullable=False)
+    population = Column(Integer, nullable=False)
 
-    def to_dict(self):
-        return {}
+class FavPeople(Base):
+    __tablename__ = "favpeople"
+    id = Column(Integer, primary_key=True)
+    User_ID = Column(Integer, ForeignKey('user.id'))
+    People_ID = Column(Integer, ForeignKey('people.uid'))
+    people = relationship(People)
+    user = relationship(User)
+
+class FavPlanets(Base):
+    __tablename__ = "favplanets"
+    id = Column(Integer, primary_key=True)
+    User_ID = Column(Integer, ForeignKey('user.id'))
+    Planet_ID = Column(Integer, ForeignKey('planets.uid'))
+    planets = relationship(Planets)
+    user = relationship(User)
+    
+
+def to_dict(self):
+    return {}
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
